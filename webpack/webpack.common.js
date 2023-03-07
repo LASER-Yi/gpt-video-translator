@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const srcDir = path.join(__dirname, '..', 'src');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -39,5 +40,6 @@ module.exports = {
       patterns: [{ from: '.', to: '../', context: 'public' }],
       options: {},
     }),
+    new ESLintPlugin(),
   ],
 };
