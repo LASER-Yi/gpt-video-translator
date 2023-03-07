@@ -1,0 +1,5 @@
+function entry() {
+  // TODO
+}
+
+entry();

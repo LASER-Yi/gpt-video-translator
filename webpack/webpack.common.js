@@ -6,10 +6,10 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   entry: {
-    popup: path.join(srcDir, 'popup.tsx'),
-    options: path.join(srcDir, 'options.tsx'),
-    background: path.join(srcDir, 'background.ts'),
-    content_script: path.join(srcDir, 'content_script.tsx'),
+    popup: path.join(srcDir, 'popup/index.tsx'),
+    options: path.join(srcDir, 'options/index.tsx'),
+    background: path.join(srcDir, 'background/index.ts'),
+    content_script: path.join(srcDir, 'content_script/index.tsx'),
   },
   output: {
     path: path.join(__dirname, '../dist/js'),
