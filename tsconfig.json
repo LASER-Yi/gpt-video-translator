@@ -5,7 +5,7 @@
     "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
-    "target": "es6",
+    "target": "ES2018",
     "esModuleInterop": true,
     "sourceMap": false,
     "rootDir": "src",
