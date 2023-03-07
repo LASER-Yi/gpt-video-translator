@@ -1,30 +1,47 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: build
+name: CI
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+
+env:
+  ARTIFACT_NAME: plugin
+  BUILD_DIRECTORY: './dist'
 
 jobs:
-  build:
-
+  Build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x, 15.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./node_modules
+            ./.next/cache
+          key: ${{ runner.os }}-modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-modules-
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.BUILD_DIRECTORY }}
+          if-no-files-found: error
+          retention-days: 7
